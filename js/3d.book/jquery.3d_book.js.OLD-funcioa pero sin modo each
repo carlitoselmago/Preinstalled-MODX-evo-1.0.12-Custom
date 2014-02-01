@@ -1,0 +1,96 @@
+(function($){
+return $.fn.threeDbook = function(options) { 
+
+// set up default options 
+	var defaults = {
+	
+		BookSelector:".libro",
+		pagesNum:160,
+		pagesSimulateFactor:25,
+		pagesSimulateSpace:2,
+		rotationY:-5,
+		rotationZ:0,
+		translateZ:0,
+		classBlankPage:'blankwhite_page',
+		hoverEffect: true,
+		hoverOpenFactor:3
+	}; 
+	
+	var options = $.extend({}, defaults, options); 
+	
+	//LAUNCH
+	construct3dbook();
+	
+	//HOVER
+	$(options.BookSelector).mouseenter(function(){
+		if (options.hoverEffect){
+			hover3dbook();
+		}
+    }).mouseleave(function(){
+      if (options.hoverEffect){
+			unhover3dbook();
+		}
+    });
+	
+	function construct3dbook(){
+		
+		var srcCover=$("img",options.BookSelector).attr("src");
+		var CoverW=$("img",options.BookSelector).attr("width");
+		var CoverH=$("img",options.BookSelector).attr("height");
+		
+		$(options.BookSelector).css("margin-left",CoverW+'px');
+		
+		//APLICAMOS CSS A LA PORTADA
+		$(options.BookSelector).empty();
+		$(options.BookSelector).prepend(construtPage(srcCover,'cover','',CoverW,CoverH,options.rotationY,options.rotationZ,options.translateZ,null,CoverW));
+		
+
+		
+		var pagesSimulated=options.pagesNum/options.pagesSimulateFactor;
+		
+		for(p=0;p<pagesSimulated;p++){
+			//CREAMOS PAGINAS BLANCAS
+			$(options.BookSelector).prepend(construtPage('img/blank.png','',options.classBlankPage,CoverW-3,CoverH-3,options.rotationY,options.rotationZ,'-'+p*options.pagesSimulateSpace,1,CoverW));
+		}
+		
+		$(options.BookSelector).prepend(construtPage(srcCover,'cover','',options.CoverW,options.CoverH,options.rotationY,options.rotationZ,options.translateZ-(pagesSimulated*options.pagesSimulateSpace),null,CoverW));
+		
+	}
+	
+	function construtPage(srcImage,idImage,classBlankPage,imageW,imageH,rotationY,rotationZ,translateZ,imageMarginBottom,marginleft){
+		return '<img src="'+srcImage+'"  id="'+idImage+'" class="'+classBlankPage+'" style="width:'+imageW+'px; height:'+imageH+'px; margin-bottom:'+imageMarginBottom+'px; margin-left:-'+marginleft+'px; -webkit-transform: rotatey('+rotationY+'deg) rotatez('+rotationZ+'deg) translatez('+translateZ+'px); "/>';
+		//return '<img src="'+srcImage+'"  id="'+idImage+'" class="'+classBlankPage+'" style="width:'+imageW+'px; height:'+imageH+'px;" />';
+	}
+	
+	function hover3dbook(){
+		var pagesSimulated=options.pagesNum/options.pagesSimulateFactor;
+		var pogressiveRotation=options.rotationY;
+		var prgressiveadd;
+		var translateProgress=pagesSimulated;
+		for(p=0;p<pagesSimulated+2;p++){
+			
+			if (p<(pagesSimulated/2)){
+				prgressiveadd=(Math.abs(((pagesSimulated/2)-p)));
+				pogressiveRotation=options.rotationY+(prgressiveadd*options.hoverOpenFactor);
+			} else {
+				prgressiveadd=(p-(pagesSimulated/2));
+				pogressiveRotation=options.rotationY-(prgressiveadd*options.hoverOpenFactor);
+			}
+			
+		//var pogressiveRotation=(p*2);
+			translateProgress=-Math.abs(translateProgress+1);
+			$("img", options.BookSelector).eq(p).css({transform:'rotatey('+pogressiveRotation+'deg) rotatez('+options.rotationZ+'deg) translatez('+(translateProgress*options.pagesSimulateSpace)+'px)'});
+		}
+	}
+	
+	function unhover3dbook(){
+		var pagesSimulated=options.pagesNum/options.pagesSimulateFactor;
+		var translateProgress=pagesSimulated;
+		for(p=0;p<pagesSimulated+2;p++){
+			translateProgress=-Math.abs(translateProgress+1);
+			$("img", options.BookSelector).eq(p).css({transform:'rotatey('+options.rotationY+'deg) rotatez('+options.rotationZ+'deg) translatez('+(translateProgress*options.pagesSimulateSpace)+'px)'});
+		}
+	}
+	
+  };
+})(jQuery);

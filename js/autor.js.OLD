@@ -1,0 +1,26 @@
+$(document).ready(function(){
+
+$('.libro img:last').load(function(){
+$(".libro").threeDbook();
+});
+
+//VOLVER
+setTimeout(function() {
+	$("#back ").animate({
+   marginLeft: "0px"
+   
+  }, 500, function() {
+    // Animation complete.
+		$("#back #eltexto").animate({
+	   width: "175"
+	   
+	  }, 800, function() {
+		// Animation complete.
+	  });
+  });
+	
+
+}, 3000);
+
+ 
+});//FINAL DOCUMENT READY

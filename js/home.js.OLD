@@ -1,0 +1,39 @@
+setTimeout(function() {
+ !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+}, 0);
+
+$(document).ready(function(){
+
+$('.libro img:last').load(function(){
+$(".libro").threeDbook();
+});
+
+//SCROLL NOTICIAS
+var numItems = $('.mini_ban').length;
+var anchosumado=numItems*336;
+$('.scroll_wrapper').css("width",anchosumado+"px");
+ $('.banner_scroll').kinetic();
+ 
+
+ resizeSM();
+
+ 
+  $(window).resize(function() {
+        resizeSM();
+    });
+ 
+ function resizeSM(){
+	
+	var anchoPant=parseInt($(window).width());
+	
+	var anchocada=(anchoPant-160)/2;
+	
+	//$("#FB_widget iframe").css("width",anchocada+"px");
+	//$("#twitter-widget-0").css("width",anchocada+"px");
+	
+	
+	console.log(anchocada);
+
+ }
+ 
+});//FINAL DOCUMENT READY

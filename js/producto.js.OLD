@@ -1,0 +1,118 @@
+$(document).ready(function(){
+	
+//VOLVER
+setTimeout(function() {
+	$("#back ").animate({
+   marginRight: "0px"
+   
+  }, 500, function() {
+    // Animation complete.
+		$("#back #eltexto").animate({
+	   width: "215"
+	   
+	  }, 800, function() {
+		// Animation complete.
+	  });
+  });
+	
+
+}, 3000);
+
+
+	//scroll to visor
+	$(".mini").live("click", function(){
+		//$("body").scrollTo( '.fotos', 800 );
+		$("body").scrollTo( {top:'140px', left:'0px'}, 800 );
+	});
+
+	
+	//FLIP
+	$(".buy.digital").mouseenter(function(e){
+		if ($(this).find(".front .signo").length > 0) {
+			
+		} else {
+		var back=$(this).find(".back").html();
+		
+		$(".buy .digital.front").flippy({
+		color_target: "#309261",
+		duration: "200",
+		direction: 'top',
+		verso: back
+		});
+		 e.preventDefault();
+		 }
+    }).mouseleave(function(){
+      $(".buy .digital.front").flippyReverse();
+    });
+	
+	$(".buy.impreso").mouseenter(function(e){
+		if ($(this).find(".front .signo").length > 0) {
+			
+		} else {
+		var back2=$(this).find(".back").html();
+		
+		$(".buy .impreso.front").flippy({
+		color_target: "#309261",
+		duration: "200",
+		direction: 'top',
+		verso: back2
+		});
+		 e.preventDefault();
+		 }
+    }).mouseleave(function(){
+      $(".buy .impreso.front").flippyReverse();
+    });
+	
+	
+	
+	//TRUCO ALTO SLIDER
+	var anchofoto=$("#slide").width();
+	
+	// $(window).resize(function() {
+		// $('#log').append('<div>Handler for .resize() called.</div>');
+	// });
+	
+
+	//SLIDE FOTOS
+	$('#slide img:last').load(function(){
+		$('.fotos').css({ opacity: 1 });
+		
+		var altura=$("#slide img:first-child").height();
+		
+		
+		 var opts ={ 
+			fx: 'scrollHorz', 
+			timeout: 0, 
+			fit: 1,
+			width: anchofoto,
+			height: altura,
+			activePagerClass: 'activeSlide',
+			pager:  '#thumbs', 
+			 
+			// callback fn that creates a thumbnail to use as pager anchor 
+			pagerAnchorBuilder: function(idx, slide) { 
+				
+				$("#slide span").zoom();
+				//$('#slide img').zoom();
+				//var srcslide=slide.find("img").attr("src");
+				//console.log(slide.firstChild.src);
+				return '<div class="mini"><img src="' + slide.firstChild.src+ '" width="auto" height="70" /></div>'; 
+			} 
+		} 
+		
+		$('#slide').cycle(opts);
+		
+		
+		 $(window).resize(function(){
+			opts.width = $(".fotos").width();
+		   opts.height = $("#slide img:first-child").height();
+			$('#slide').cycle('destroy');
+		   $('#slide').cycle(opts);
+		});
+		
+		
+		$("#test").zoom();
+	});
+	 
+ 
+});//FINAL DOCUMENT READY

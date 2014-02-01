@@ -1,0 +1,18 @@
+@charset "utf-8";
+html {} 
+body {
+    font-family: arial, helvetica, tahoma, sans-serif;
+    margin:0px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+a img {
+    border: none;
+}
+.clear {
+    clear: both
+}
